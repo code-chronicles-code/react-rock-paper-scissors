@@ -26,17 +26,26 @@ function App() {
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    gap: 5,
+    gap: 10,
     padding: 10,
+  } as const;
+
+  const buttonRowStyle = {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 5,
   } as const;
 
   if (playerMove == null) {
     return (
       <div style={containerStyle}>
         <span>Make your move!</span>
-        <button onClick={() => setPlayerMove("rock")}>Rock</button>
-        <button onClick={() => setPlayerMove("paper")}>Paper</button>
-        <button onClick={() => setPlayerMove("scissors")}>Scissors</button>
+        <div style={buttonRowStyle}>
+          <button onClick={() => setPlayerMove("rock")}>🪨</button>
+          <button onClick={() => setPlayerMove("paper")}>📄</button>
+          <button onClick={() => setPlayerMove("scissors")}>✂️</button>
+        </div>
       </div>
     );
   }
