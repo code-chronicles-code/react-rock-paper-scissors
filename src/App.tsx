@@ -10,8 +10,25 @@ function getRandomMove(): Move {
 
 function App() {
   const [computerMove, setComputerMove] = React.useState<Move>(getRandomMove());
+  const [playerMove, setPlayerMove] = React.useState<Move | null>(null);
 
-  return <div>Computer move: {computerMove}</div>;
+  const containerStyle = {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    gap: 5,
+    padding: 10,
+  } as const;
+
+  return (
+    <div style={containerStyle}>
+      <span>Computer move: {computerMove}</span>
+      <span>Player move: {playerMove}</span>
+      <button onClick={() => setPlayerMove("rock")}>Rock</button>
+      <button onClick={() => setPlayerMove("paper")}>Paper</button>
+      <button onClick={() => setPlayerMove("scissors")}>Scissors</button>
+    </div>
+  );
 }
 
 export default App;
