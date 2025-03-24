@@ -18,9 +18,14 @@ function getWinner(moveA: Move, moveB: Move): "a" | "b" | "tie" {
   return (indexA + 1) % MOVES.length === indexB ? "b" : "a";
 }
 
+type GameResults = { wins: number; losses: number; draws: number };
+
 function App() {
   const [computerMove, setComputerMove] = React.useState<Move>(getRandomMove());
   const [playerMove, setPlayerMove] = React.useState<Move | null>(null);
+  const [{ wins, losses, draws }, setGameResults] = React.useState<GameResults>(
+    { wins: 0, losses: 0, draws: 0 },
+  );
 
   const containerStyle = {
     display: "flex",
@@ -37,14 +42,32 @@ function App() {
     gap: 5,
   } as const;
 
+  const handleMove = (move: Move) => {
+    setPlayerMove(move);
+    switch (getWinner(move, computerMove)) {
+      case "a": {
+        setGameResults({ wins: wins + 1, losses, draws });
+        break;
+      }
+      case "b": {
+        setGameResults({ wins, losses: losses + 1, draws });
+        break;
+      }
+      case "tie": {
+        setGameResults({ wins, losses, draws: draws + 1 });
+        break;
+      }
+    }
+  };
+
   if (playerMove == null) {
     return (
       <div style={containerStyle}>
         <span>Make your move!</span>
         <div style={buttonRowStyle}>
-          <button onClick={() => setPlayerMove("rock")}>🪨</button>
-          <button onClick={() => setPlayerMove("paper")}>📄</button>
-          <button onClick={() => setPlayerMove("scissors")}>✂️</button>
+          <button onClick={() => handleMove("rock")}>🪨</button>
+          <button onClick={() => handleMove("paper")}>📄</button>
+          <button onClick={() => handleMove("scissors")}>✂️</button>
         </div>
       </div>
     );
@@ -63,10 +86,13 @@ function App() {
 
   return (
     <div style={containerStyle}>
-      <span>
+      <div>
         You picked <strong>{playerMove}</strong>, computer picked{" "}
         <strong>{computerMove}</strong>. {winnerText}
-      </span>
+      </div>
+      <div>
+        Wins: {wins} / Losses: {losses} / Draws: {draws}
+      </div>
       <button onClick={resetGame}>Play again</button>
     </div>
   );
