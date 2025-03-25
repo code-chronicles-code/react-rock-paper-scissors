@@ -1,10 +1,40 @@
 import React from "react";
 
-const MOVES = ["rock", "paper", "scissors"] as const;
-type Move = (typeof MOVES)[number];
+const MOVES_CONFIG = {
+  rock: {
+    scissors: "crushes",
+    lizard: "crushes",
+  },
+  paper: {
+    rock: "covers",
+    spock: "disproves",
+  },
+  scissors: {
+    paper: "cuts",
+    lizard: "decapitates",
+  },
+  lizard: {
+    paper: "eats",
+    Spock: "poisons",
+  },
+  Spock: {
+    scissors: "smashes",
+    rock: "vaporizes",
+  },
+} as const;
+
+type Move = keyof typeof MOVES_CONFIG;
+
+function objectKeys<T extends Record<PropertyKey, unknown>>(
+  obj: T,
+): (keyof T)[] {
+  return Object.keys(obj);
+}
+
+const MOVES: readonly Move[] = objectKeys(MOVES_CONFIG);
 
 function getRandomMove(): Move {
-  const index = Math.floor(Math.random() * 3);
+  const index = Math.floor(Math.random() * MOVES.length);
   return MOVES[index];
 }
 
@@ -13,9 +43,7 @@ function getWinner(moveA: Move, moveB: Move): "a" | "b" | "tie" {
     return "tie";
   }
 
-  const indexA = MOVES.indexOf(moveA);
-  const indexB = MOVES.indexOf(moveB);
-  return (indexA + 1) % MOVES.length === indexB ? "b" : "a";
+  return Object.hasOwn(MOVES_CONFIG[moveA], moveB) ? "a" : "b";
 }
 
 type GameResults = { wins: number; losses: number; draws: number };
@@ -68,6 +96,8 @@ function App() {
           <button onClick={() => handleMove("rock")}>🪨</button>
           <button onClick={() => handleMove("paper")}>📄</button>
           <button onClick={() => handleMove("scissors")}>✂️</button>
+          <button onClick={() => handleMove("lizard")}>🦎</button>
+          <button onClick={() => handleMove("Spock")}>🖖</button>
         </div>
       </div>
     );
