@@ -1,6 +1,6 @@
 import React from "react";
 
-const MOVES_CONFIG = {
+const MOVE_CONFIG = {
   rock: {
     scissors: "crushes",
     lizard: "crushes",
@@ -23,7 +23,7 @@ const MOVES_CONFIG = {
   },
 } as const;
 
-type Move = keyof typeof MOVES_CONFIG;
+type Move = keyof typeof MOVE_CONFIG;
 
 function objectKeys<T extends Record<PropertyKey, unknown>>(
   obj: T,
@@ -31,19 +31,27 @@ function objectKeys<T extends Record<PropertyKey, unknown>>(
   return Object.keys(obj);
 }
 
-const MOVES: readonly Move[] = objectKeys(MOVES_CONFIG);
+const MOVES: readonly Move[] = objectKeys(MOVE_CONFIG);
 
 function getRandomMove(): Move {
   const index = Math.floor(Math.random() * MOVES.length);
   return MOVES[index];
 }
 
+const MOVE_EMOJI = {
+  rock: "🪨",
+  paper: "📄",
+  scissors: "✂️",
+  lizard: "🦎",
+  Spock: "🖖",
+} as const satisfies Record<Move, string>;
+
 function getWinner(moveA: Move, moveB: Move): "a" | "b" | "tie" {
   if (moveA === moveB) {
     return "tie";
   }
 
-  return Object.hasOwn(MOVES_CONFIG[moveA], moveB) ? "a" : "b";
+  return Object.hasOwn(MOVE_CONFIG[moveA], moveB) ? "a" : "b";
 }
 
 type GameResults = { wins: number; losses: number; draws: number };
@@ -67,7 +75,7 @@ function App() {
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
-    gap: 5,
+    gap: 10,
   } as const;
 
   const handleMove = (move: Move) => {
@@ -93,11 +101,23 @@ function App() {
       <div style={containerStyle}>
         <span>Make your move!</span>
         <div style={buttonRowStyle}>
-          <button onClick={() => handleMove("rock")}>🪨</button>
-          <button onClick={() => handleMove("paper")}>📄</button>
-          <button onClick={() => handleMove("scissors")}>✂️</button>
-          <button onClick={() => handleMove("lizard")}>🦎</button>
-          <button onClick={() => handleMove("Spock")}>🖖</button>
+          {MOVES.map((move) => (
+            <button
+              key={move}
+              onClick={() => handleMove(move)}
+              style={{
+                fontSize: 30,
+                // line-height unit doesn't default to pixels!
+                lineHeight: "50px",
+                textAlign: "center",
+                width: 50,
+                height: 50,
+                padding: 0,
+              }}
+            >
+              {MOVE_EMOJI[move]}
+            </button>
+          ))}
         </div>
       </div>
     );
