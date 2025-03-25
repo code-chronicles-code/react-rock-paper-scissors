@@ -1,7 +1,7 @@
 import React from "react";
 
-type Move = "rock" | "paper" | "scissors";
-const MOVES: readonly Move[] = ["rock", "paper", "scissors"];
+const MOVES = ["rock", "paper", "scissors"] as const;
+type Move = (typeof MOVES)[number];
 
 function getRandomMove(): Move {
   const index = Math.floor(Math.random() * 3);
