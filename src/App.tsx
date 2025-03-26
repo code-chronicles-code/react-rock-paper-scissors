@@ -1,18 +1,28 @@
 import React from "react";
 
 import { MOVE_CONFIG, MOVES, MOVE_EMOJI, type Move } from "./constants";
+import capitalize from "./util/capitalize";
 import getRandomElement from "./util/getRandomElement";
 
 function getRandomMove(): Move {
   return getRandomElement(MOVES);
 }
 
-function getWinner(moveA: Move, moveB: Move): "a" | "b" | "tie" {
-  if (moveA === moveB) {
-    return "tie";
+function getGameResult(
+  moveA: Move,
+  moveB: Move,
+): ["a" | "b", string] | ["tie", null] {
+  const aBeatsB = MOVE_CONFIG[moveA][moveB];
+  if (aBeatsB != null) {
+    return ["a", aBeatsB];
   }
 
-  return Object.hasOwn(MOVE_CONFIG[moveA], moveB) ? "a" : "b";
+  const bBeatsA = MOVE_CONFIG[moveB][moveA];
+  if (bBeatsA != null) {
+    return ["b", bBeatsA];
+  }
+
+  return ["tie", null];
 }
 
 type GameResults = { wins: number; losses: number; draws: number };
@@ -41,7 +51,7 @@ function App() {
 
   const handleMove = (move: Move) => {
     setPlayerMove(move);
-    switch (getWinner(move, computerMove)) {
+    switch (getGameResult(move, computerMove)[0]) {
       case "a": {
         setGameResults({ wins: wins + 1, losses, draws });
         break;
@@ -89,18 +99,38 @@ function App() {
     setComputerMove(getRandomMove());
   };
 
-  const winnerText = {
-    a: "You win!",
-    b: "Computer wins.",
-    tie: "It's a tie...",
-  }[getWinner(playerMove, computerMove)];
+  const [gameResult, verb] = getGameResult(playerMove, computerMove);
+  const gameResultContent = (() => {
+    switch (gameResult) {
+      case "a": {
+        return (
+          <div style={{ color: "forestgreen" }}>
+            <strong>{capitalize(playerMove)}</strong> {verb}{" "}
+            <strong>{computerMove}</strong>, you win!
+          </div>
+        );
+      }
+      case "b": {
+        return (
+          <div style={{ color: "crimson" }}>
+            <strong>{capitalize(computerMove)}</strong> {verb}{" "}
+            <strong>{playerMove}</strong>, computer wins...
+          </div>
+        );
+      }
+      case "tie": {
+        return <div style={{ color: "royalblue" }}>It's a tie.</div>;
+      }
+    }
+  })();
 
   return (
     <div style={containerStyle}>
       <div>
         You picked <strong>{playerMove}</strong>, computer picked{" "}
-        <strong>{computerMove}</strong>. {winnerText}
+        <strong>{computerMove}</strong>.
       </div>
+      {gameResultContent}
       <div>
         Wins: {wins} / Losses: {losses} / Draws: {draws}
       </div>

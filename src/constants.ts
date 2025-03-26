@@ -1,13 +1,16 @@
-import objectKeys from "./util/objectKeys";
+export const MOVES = ["rock", "paper", "scissors", "lizard", "Spock"] as const;
+export type Move = (typeof MOVES)[number];
 
-export const MOVE_CONFIG = {
+export const MOVE_CONFIG: Readonly<
+  Record<Move, Partial<Readonly<Record<Move, string>>>>
+> = {
   rock: {
     scissors: "crushes",
     lizard: "crushes",
   },
   paper: {
     rock: "covers",
-    spock: "disproves",
+    Spock: "disproves",
   },
   scissors: {
     paper: "cuts",
@@ -21,18 +24,12 @@ export const MOVE_CONFIG = {
     scissors: "smashes",
     rock: "vaporizes",
   },
-} as const;
+};
 
-export type Move = keyof typeof MOVE_CONFIG;
-
-MOVE_CONFIG satisfies Record<Move, Partial<Record<Move, string>>>;
-
-export const MOVES: readonly Move[] = objectKeys(MOVE_CONFIG);
-
-export const MOVE_EMOJI = {
+export const MOVE_EMOJI: Record<Move, string> = {
   rock: "🪨",
   paper: "📄",
   scissors: "✂️",
   lizard: "🦎",
   Spock: "🖖",
-} as const satisfies Record<Move, string>;
+};
