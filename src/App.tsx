@@ -1,50 +1,11 @@
 import React from "react";
 
-const MOVE_CONFIG = {
-  rock: {
-    scissors: "crushes",
-    lizard: "crushes",
-  },
-  paper: {
-    rock: "covers",
-    spock: "disproves",
-  },
-  scissors: {
-    paper: "cuts",
-    lizard: "decapitates",
-  },
-  lizard: {
-    paper: "eats",
-    Spock: "poisons",
-  },
-  Spock: {
-    scissors: "smashes",
-    rock: "vaporizes",
-  },
-} as const;
-
-type Move = keyof typeof MOVE_CONFIG;
-
-function objectKeys<T extends Record<PropertyKey, unknown>>(
-  obj: T,
-): (keyof T)[] {
-  return Object.keys(obj);
-}
-
-const MOVES: readonly Move[] = objectKeys(MOVE_CONFIG);
+import { MOVE_CONFIG, MOVES, MOVE_EMOJI, type Move } from "./constants";
+import getRandomElement from "./util/getRandomElement";
 
 function getRandomMove(): Move {
-  const index = Math.floor(Math.random() * MOVES.length);
-  return MOVES[index];
+  return getRandomElement(MOVES);
 }
-
-const MOVE_EMOJI = {
-  rock: "🪨",
-  paper: "📄",
-  scissors: "✂️",
-  lizard: "🦎",
-  Spock: "🖖",
-} as const satisfies Record<Move, string>;
 
 function getWinner(moveA: Move, moveB: Move): "a" | "b" | "tie" {
   if (moveA === moveB) {
