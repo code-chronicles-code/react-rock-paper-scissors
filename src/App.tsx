@@ -1,6 +1,9 @@
 import React from "react";
 
-import { MOVE_CONFIG, MOVES, MOVE_EMOJI, type Move } from "./constants";
+import "./App.css";
+
+import { MOVE_CONFIG, MOVES, type Move } from "./constants";
+import MoveButton from "./MoveButton";
 import capitalize from "./util/capitalize";
 import getRandomElement from "./util/getRandomElement";
 
@@ -34,21 +37,6 @@ function App() {
     { wins: 0, losses: 0, draws: 0 },
   );
 
-  const containerStyle = {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    gap: 10,
-    padding: 10,
-  } as const;
-
-  const buttonRowStyle = {
-    display: "flex",
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 10,
-  } as const;
-
   const handleMove = (move: Move) => {
     setPlayerMove(move);
     switch (getGameResult(move, computerMove)[0]) {
@@ -69,27 +57,19 @@ function App() {
 
   if (playerMove == null) {
     return (
-      <div style={containerStyle}>
+      <div className="App-container">
         <span>Make your move!</span>
-        <div style={buttonRowStyle}>
-          {MOVES.map((move) => (
-            <button
-              key={move}
-              onClick={() => handleMove(move)}
-              style={{
-                fontSize: 30,
-                // line-height unit doesn't default to pixels!
-                lineHeight: "50px",
-                textAlign: "center",
-                width: 50,
-                height: 50,
-                padding: 0,
-              }}
-            >
-              {MOVE_EMOJI[move]}
-            </button>
-          ))}
-        </div>
+        {MOVES.map((move, i) => (
+          <MoveButton
+            isAnimating
+            key={move}
+            move={move}
+            onClick={() => handleMove(move)}
+            transform={`rotate(${
+              i / MOVES.length
+            }turn) translateY(-25vmin) rotate(${-i / MOVES.length}turn)`}
+          />
+        ))}
       </div>
     );
   }
@@ -125,7 +105,7 @@ function App() {
   })();
 
   return (
-    <div style={containerStyle}>
+    <div className="App-container">
       <div>
         You picked <strong>{playerMove}</strong>, computer picked{" "}
         <strong>{computerMove}</strong>.

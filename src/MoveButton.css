@@ -1,0 +1,50 @@
+.MoveButton-outer-container,
+.MoveButton-transform-container,
+.MoveButton-button {
+  width: 10vmin;
+  aspect-ratio: 1;
+}
+
+.MoveButton-outer-container {
+  position: absolute;
+  left: calc(50% - 5vmin);
+  top: calc(50% - 5vmin);
+}
+
+.MoveButton-button {
+  padding: 0;
+
+  font-size: 6vmin;
+  line-height: 10vmin;
+
+  text-align: center;
+  user-select: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes spin-clockwise {
+    from {
+      transform: rotate(0turn);
+    }
+    to {
+      transform: rotate(1turn);
+    }
+  }
+
+  @keyframes spin-counterclockwise {
+    from {
+      transform: rotate(0turn);
+    }
+    to {
+      transform: rotate(-1turn);
+    }
+  }
+
+  .MoveButton-outer-container {
+    animation: spin-clockwise infinite 60s linear;
+  }
+
+  .MoveButton-button {
+    animation: spin-counterclockwise infinite 60s linear;
+  }
+}
