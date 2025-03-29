@@ -57,17 +57,16 @@ function App() {
 
   if (playerMove == null) {
     return (
-      <div className="App-container">
-        <span>Make your move!</span>
+      <div className="App-container centered-container">
+        <h1>Make your move!</h1>
         {MOVES.map((move, i) => (
           <MoveButton
-            isAnimating
             key={move}
             move={move}
             onClick={() => handleMove(move)}
             transform={`rotate(${
               i / MOVES.length
-            }turn) translateY(-25vmin) rotate(${-i / MOVES.length}turn)`}
+            }turn) translateY(-35vmin) rotate(${-i / MOVES.length}turn)`}
           />
         ))}
       </div>
@@ -105,16 +104,20 @@ function App() {
   })();
 
   return (
-    <div className="App-container">
-      <div>
-        You picked <strong>{playerMove}</strong>, computer picked{" "}
-        <strong>{computerMove}</strong>.
+    <div className="App-container centered-container" style={{ gap: "4vmin" }}>
+      <div className="centered-container" style={{ gap: "2vmin" }}>
+        <div>
+          You picked <strong>{playerMove}</strong>, computer picked{" "}
+          <strong>{computerMove}</strong>.
+        </div>
+        {gameResultContent}
+        <div>
+          Wins: {wins} / Losses: {losses} / Draws: {draws}
+        </div>
       </div>
-      {gameResultContent}
-      <div>
-        Wins: {wins} / Losses: {losses} / Draws: {draws}
-      </div>
-      <button onClick={resetGame}>Play again</button>
+      <button className="App-reset-button" onClick={resetGame}>
+        Play again
+      </button>
     </div>
   );
 }

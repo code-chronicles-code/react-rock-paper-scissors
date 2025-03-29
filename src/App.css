@@ -1,16 +1,17 @@
-#root,
 .App-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.App-container {
-  width: 80vmin;
+  width: 100vmin;
   aspect-ratio: 1;
 
   position: relative;
+}
 
-  gap: 10px;
-  padding: 10px;
+.App-container,
+.App-reset-button {
+  font-size: calc(max(16px, 3vmin));
+  line-height: 120%;
+}
+
+.App-reset-button {
+  border-radius: 1vmin;
+  padding: 1vmin 2vmin;
 }
