@@ -19,6 +19,7 @@
   top: calc(50% - 8vmin);
 
   border-radius: 50%;
+  padding: 0;
 }
 
 @media (prefers-reduced-motion: no-preference) {

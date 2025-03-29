@@ -4,14 +4,3 @@
 
   position: relative;
 }
-
-.App-container,
-.App-reset-button {
-  font-size: calc(max(16px, 3vmin));
-  line-height: 120%;
-}
-
-.App-reset-button {
-  border-radius: 1vmin;
-  padding: 1vmin 2vmin;
-}
