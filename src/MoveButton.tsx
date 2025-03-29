@@ -1,6 +1,6 @@
 import React from "react";
 
-import "./MoveButton.css";
+import styles from "./MoveButton.module.css";
 
 import { MOVE_EMOJI, type Move } from "./constants";
 
@@ -12,12 +12,13 @@ type Props = {
 
 export default function MoveButton({ move, onClick, transform }: Props) {
   return (
-    <button
-      onClick={onClick}
-      className="MoveButton-button centered-container"
-      style={{ transform }}
-    >
-      <div className="MoveButton-emoji">{MOVE_EMOJI[move]}</div>
-    </button>
+    <div className={styles.container} style={{ transform }}>
+      <button
+        onClick={onClick}
+        className={`${styles.button} centered-container`}
+      >
+        <div className={styles.emoji}>{MOVE_EMOJI[move]}</div>
+      </button>
+    </div>
   );
 }

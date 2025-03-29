@@ -1,5 +1,5 @@
-.MoveButton-button,
-.MoveButton-emoji {
+.button,
+.emoji {
   width: 16vmin;
   aspect-ratio: 1;
 
@@ -8,23 +8,37 @@
   user-select: none;
 
   overflow: hidden;
-
-  backface-visibility: hidden;
-  will-change: transform;
 }
 
-.MoveButton-button {
-  position: absolute;
-  left: calc(50% - 8vmin);
-  top: calc(50% - 8vmin);
-
+.button {
   border-radius: 50%;
   padding: 0;
+
+  margin-left: -50%;
+  margin-top: -50%;
+}
+
+.container {
+  position: absolute;
+  left: 50%;
+  top: 50%;
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .MoveButton-button:focus .MoveButton-emoji,
-  .MoveButton-button:hover .MoveButton-emoji {
+  .button,
+  .emoji {
+    backface-visibility: hidden;
+    will-change: transform;
+  }
+
+  .button:focus,
+  .button:hover {
+    scale: 1.2;
+    transition: scale 0.1s;
+  }
+
+  .button:focus .emoji,
+  .button:hover .emoji {
     animation: wiggle infinite 0.4s linear;
   }
 

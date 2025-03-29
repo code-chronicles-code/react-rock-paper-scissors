@@ -1,6 +1,6 @@
 import React from "react";
 
-import "./App.css";
+import styles from "./App.module.css";
 
 import { MOVE_CONFIG, MOVES, type Move } from "./constants";
 import MoveButton from "./MoveButton";
@@ -57,7 +57,7 @@ function App() {
 
   if (playerMove == null) {
     return (
-      <div className="App-container centered-container">
+      <div className={`${styles.container} centered-container`}>
         <h1>Make your move!</h1>
         {MOVES.map((move, i) => (
           <MoveButton
