@@ -4,3 +4,21 @@
 
   position: relative;
 }
+
+.moveInfo {
+  display: none;
+}
+
+:has(button:hover) + .moveInfo,
+:has(button:focus) + .moveInfo {
+  display: block;
+}
+
+:has(button:hover) ~ .heading,
+:has(button:focus) ~ .heading {
+  display: none;
+}
+
+.container h1 {
+  max-width: 40%;
+}

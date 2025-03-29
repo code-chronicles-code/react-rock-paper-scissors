@@ -37,7 +37,7 @@ button {
 }
 
 button {
-  background: color-mix(in oklch, cornflowerblue 15%, transparent);
+  background: color-mix(in oklch, cornflowerblue 25%, transparent);
   border: calc(max(1px, 0.3vmin)) solid black;
   border-radius: 1vmin;
 
@@ -48,7 +48,7 @@ button {
 
 button:hover,
 button:focus {
-  background: color-mix(in oklch, cornflowerblue 35%, transparent);
+  background: color-mix(in oklch, cornflowerblue 45%, transparent);
 }
 
 .centered-container {

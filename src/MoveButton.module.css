@@ -25,15 +25,9 @@
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .button,
-  .emoji {
-    backface-visibility: hidden;
-    will-change: transform;
-  }
-
   .button:focus,
   .button:hover {
-    scale: 1.2;
+    scale: 1.1;
     transition: scale 0.1s;
   }
 

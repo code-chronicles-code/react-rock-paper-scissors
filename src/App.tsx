@@ -57,18 +57,30 @@ function App() {
 
   if (playerMove == null) {
     return (
-      <div className={`${styles.container} centered-container`}>
-        <h1>Make your move!</h1>
-        {MOVES.map((move, i) => (
-          <MoveButton
-            key={move}
-            move={move}
-            onClick={() => handleMove(move)}
-            transform={`rotate(${
-              i / MOVES.length
-            }turn) translateY(-35vmin) rotate(${-i / MOVES.length}turn)`}
-          />
-        ))}
+      <div
+        className={`${styles.container} centered-container`}
+        style={{ gap: "2vmin" }}
+      >
+        {MOVES.flatMap((move, i) => {
+          const [beatsA, beatsB] = Object.keys(MOVE_CONFIG[move]);
+
+          return [
+            <MoveButton
+              key={`button:${move}`}
+              move={move}
+              onClick={() => handleMove(move)}
+              transform={`rotate(${
+                i / MOVES.length
+              }turn) translateY(-35vmin) rotate(${-i / MOVES.length}turn)`}
+            />,
+
+            <h1 className={styles.moveInfo} key={`moveInfo:${move}`}>
+              <strong>{capitalize(move)}</strong> beats{" "}
+              <strong>{beatsA}</strong>&nbsp;and&nbsp;<strong>{beatsB}</strong>.
+            </h1>,
+          ];
+        })}
+        <h1 className={styles.heading}>Make your move!</h1>
       </div>
     );
   }
@@ -104,7 +116,10 @@ function App() {
   })();
 
   return (
-    <div className="App-container centered-container" style={{ gap: "4vmin" }}>
+    <div
+      className={`${styles.container} centered-container`}
+      style={{ gap: "4vmin" }}
+    >
       <div className="centered-container" style={{ gap: "2vmin" }}>
         <div>
           You picked <strong>{playerMove}</strong>, computer picked{" "}
@@ -115,9 +130,7 @@ function App() {
           Wins: {wins} / Losses: {losses} / Draws: {draws}
         </div>
       </div>
-      <button className="App-reset-button" onClick={resetGame}>
-        Play again
-      </button>
+      <button onClick={resetGame}>Play again</button>
     </div>
   );
 }
